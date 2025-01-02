@@ -17,4 +17,4 @@ async function login(email: string, password: string) {
   console.log("res", res);
 }
 
-export { login };
+export default login;
