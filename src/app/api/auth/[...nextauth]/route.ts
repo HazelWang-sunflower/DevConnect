@@ -26,6 +26,8 @@ const handler = NextAuth({
       //   token.accessToken = account.access_token;
       //   token.id = profile?.id;
       // }
+      console.log("account", account);
+      console.log("profile", profile);
       return token;
     },
     async signIn({ user, account, profile, email, credentials }) {
