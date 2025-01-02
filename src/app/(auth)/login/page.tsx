@@ -15,7 +15,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import Login from "@/app/api/custom-login/route";
 
 export default function LoginPage() {
   const formSchema = z.object({
