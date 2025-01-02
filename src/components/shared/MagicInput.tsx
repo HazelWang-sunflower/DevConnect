@@ -32,7 +32,7 @@ export default function MagicInput() {
   const calculateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const values = e.target.value;
     setText(values);
-    let tokens = values.match(/(\d+\.?\d*|\+|\-|\*|\/)/g) || [];
+    const tokens = values.match(/(\d+\.?\d*|\+|\-|\*|\/)/g) || [];
     const numbers: number[] = [];
     const operators: string[] = [];
 
