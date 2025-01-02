@@ -29,6 +29,12 @@ const handler = NextAuth({
       return token;
     },
     async signIn({ user, account, profile, email, credentials }) {
+      console.log("session", user);
+      console.log("account", account);
+      console.log("profile", profile);
+      console.log("email", email);
+      console.log("credentials", credentials);
+
       const isAllowedToSignIn = true;
       if (isAllowedToSignIn) {
         return true;

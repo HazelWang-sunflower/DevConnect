@@ -8,14 +8,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Github } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { login } from "@/app/api/login/route";
 
 export default function LoginPage() {
   const formSchema = z.object({
@@ -35,8 +35,10 @@ export default function LoginPage() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     console.log(data);
+    const res = await login(data.email, data.password, false);
+    console.log("res", res);
   };
 
   return (

@@ -3,33 +3,33 @@ import { useState } from "react";
 export default function MagicInput() {
   const [text, setText] = useState("");
   const [sum, setSum] = useState(0);
-  const debounceHandler = (e: any, fn: Function, timer: number) => {
-    const val = e.target.value || "";
-    return setTimeout(() => {
-      fn(val);
-    }, timer);
-  };
+  // const debounceHandler = (e: any, fn: Function, timer: number) => {
+  //   const val = e.target.value || "";
+  //   return setTimeout(() => {
+  //     fn(val);
+  //   }, timer);
+  // };
 
-  const changeHandler = (val: any) => {
-    setText(val);
-  };
+  // const changeHandler = (val: any) => {
+  //   setText(val);
+  // };
 
-  const operate = (num1: number, operator: string, num2: number) => {
-    switch (operator) {
-      case "+":
-        return num1 + num2;
-      case "-":
-        return num1 - num2;
-      case "*":
-        return num1 * num2;
-      case "/":
-        return num1 / num2;
-      default:
-        return 0;
-    }
-  };
+  // const operate = (num1: number, operator: string, num2: number) => {
+  //   switch (operator) {
+  //     case "+":
+  //       return num1 + num2;
+  //     case "-":
+  //       return num1 - num2;
+  //     case "*":
+  //       return num1 * num2;
+  //     case "/":
+  //       return num1 / num2;
+  //     default:
+  //       return 0;
+  //   }
+  // };
 
-  const calculateHandler = (e: any) => {
+  const calculateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const values = e.target.value;
     setText(values);
     let tokens = values.match(/(\d+\.?\d*|\+|\-|\*|\/)/g) || [];
