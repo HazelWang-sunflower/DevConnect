@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import login from "@/app/api/login/route";
+import Login from "@/app/api/custom-login/route";
 
 export default function LoginPage() {
   const formSchema = z.object({
@@ -36,7 +36,17 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    const res = await login(data.email, data.password);
+    const res = await fetch("/api/custom-login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "application/json",
+      },
+      body: new URLSearchParams({
+        username: data.email,
+        password: data.password,
+      }),
+    });
     console.log("res", res);
   };
 
