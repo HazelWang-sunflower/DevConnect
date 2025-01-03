@@ -35,16 +35,12 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    const res = await fetch("http://localhost:8080/api/auth/login", {
+    const res = await fetch("/api/login", {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-      body: new URLSearchParams({
-        username: data.email,
-        password: data.password,
-      }),
+      body: JSON.stringify({ email: data.email, password: data.password }),
     });
     console.log("res", res);
   };

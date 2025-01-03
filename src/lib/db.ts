@@ -1,4 +1,5 @@
 import mysql from "mysql2/promise";
+import { sql } from "@vercel/postgres";
 
 const pool = mysql.createPool({
   host: "localhost",
