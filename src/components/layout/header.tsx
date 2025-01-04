@@ -27,6 +27,7 @@ export default function Header() {
           <Link href="/blog" className="text-sm font-medium">
             <Button variant="ghost">Blog</Button>
           </Link>
+
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

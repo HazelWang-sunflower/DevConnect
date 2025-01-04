@@ -10,14 +10,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Github } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+function LoginPage() {
+  const router = useRouter();
+  // const { data: session } = useSession();
+  // useEffect(() => {
+  //   if (session) {
+  //     router.push("/");
+  //   }
+  // }, [session, router]);
   const formSchema = z.object({
+    username: z.string().nonempty({ message: "Username is required." }),
     email: z.string().email({
       message: "Email is required.",
     }),
@@ -31,6 +40,7 @@ export default function LoginPage() {
     defaultValues: {
       email: "",
       password: "",
+      username: "",
     },
   });
 
@@ -43,6 +53,9 @@ export default function LoginPage() {
       body: JSON.stringify({ email: data.email, password: data.password }),
     });
     console.log("res", res);
+    if (res.status === 200) {
+      router.push("/");
+    }
   };
 
   return (
@@ -55,6 +68,18 @@ export default function LoginPage() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-8"
         >
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="User Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -106,3 +131,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+export default LoginPage;

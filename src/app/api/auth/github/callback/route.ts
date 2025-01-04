@@ -34,7 +34,7 @@ export async function GET(request: Request) {
       // handle the user data, eg. save to database or create session
       console.log("userData", userData);
 
-      return NextResponse.redirect("http://localhost:3000"); // 重定向到成功登录后的页面
+      return NextResponse.redirect("/"); // 重定向到成功登录后的页面
     } catch (error) {
       console.error("Error during GitHub auth:", error);
       return NextResponse.json(

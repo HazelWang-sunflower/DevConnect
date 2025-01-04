@@ -1,11 +1,15 @@
-import { db } from "@vercel/postgres";
+import { neon } from "@neondatabase/serverless";
+import { NextResponse } from "next/server";
 
-const client = await db.connect();
 async function login(email: string, password: string) {
-  const sql = `SELECT * FROM t_users WHERE email = $1 AND password = $2`;
-  const data = await client.query(sql, [email, password]);
-  console.log("data", data);
-  return data.rowCount;
+  if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL is not defined");
+  }
+  const sql = neon(process.env.DATABASE_URL!);
+  //   const sql = `SELECT * FROM t_users WHERE email = ${email} AND password = ${password}`;
+  const data =
+    await sql`SELECT * FROM t_user WHERE email = ${email} AND password = ${password}`;
+  return NextResponse.json(data[0]);
 }
 
 export async function POST(request: Request) {
