@@ -1,5 +1,6 @@
 "use client";
 
+import { Icons } from "@/components/ui/icons";
 import { Button } from "../../../components/ui/button";
 import {
   Form,
@@ -9,10 +10,16 @@ import {
   FormMessage,
 } from "../../../components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export default function Register() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const formSchema = z.object({
     username: z.string().nonempty({ message: "Username is required." }),
     email: z.string().email({
@@ -36,12 +43,31 @@ export default function Register() {
   });
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     console.log(data);
+    setIsLoading(true);
+    setError("");
+    const response = await fetch("http://localhost:3000/api/signUp", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+
+    console.log(response);
+    if (response.ok) {
+      router.push("/login");
+    } else {
+      const data = await response.json();
+      setError(data.error);
+      // throw new Error(data.error || "Registration failed");
+    }
+    setIsLoading(false);
   };
   return (
     <div className="flex flex-col min-h-[calc(100vh-8rem)]">
       <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 mb-8">
         Sign up to DevConnect
       </h2>
+      <p className="text-sm text-muted-foreground">
+        Enter your details below to create your account
+      </p>
       <Form {...form}>
         <form
           className="w-full space-y-8"
@@ -54,7 +80,11 @@ export default function Register() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="User Name" {...field} />
+                  <Input
+                    placeholder="User Name"
+                    {...field}
+                    disabled={isLoading}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -67,7 +97,7 @@ export default function Register() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input placeholder="Email" {...field} disabled={isLoading} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,7 +110,12 @@ export default function Register() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type="password" placeholder="Password" {...field} />
+                  <Input
+                    type="password"
+                    placeholder="Password"
+                    {...field}
+                    disabled={isLoading}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -104,17 +139,23 @@ export default function Register() {
                     type="password"
                     placeholder="Confirm Password"
                     {...field}
+                    disabled={isLoading}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           ></FormField>
-          <Button className="w-full" type="submit">
+          <Button className="w-full" type="submit" disabled={isLoading}>
+            {isLoading && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
             Sign up
           </Button>
         </form>
       </Form>
+      {error && <p className="text-sm text-red-500">{error}</p>}
+
       <div className="mt-8">
         <span>Already have an account? </span>
         <Button className="px-0 text-blue-800" variant="link">
