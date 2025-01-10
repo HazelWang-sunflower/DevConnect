@@ -42,7 +42,6 @@ export default function Register() {
     },
   });
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log(data);
     setIsLoading(true);
     setError("");
     const response = await fetch("http://localhost:3000/api/signUp", {

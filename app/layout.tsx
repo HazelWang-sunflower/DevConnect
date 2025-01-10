@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/shared/theme-provider";
-import Footer from "../components/layout/footer";
 import { Provider } from "../components/layout/provider";
 
 const inter = Inter({
@@ -29,10 +28,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex flex-col min-h-screen">
-              {children}
-              <Footer />
-            </div>
+            <div className="flex flex-col min-h-screen">{children}</div>
           </ThemeProvider>
         </Provider>
       </body>

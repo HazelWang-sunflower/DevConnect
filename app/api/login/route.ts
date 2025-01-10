@@ -17,9 +17,9 @@ async function login(email: string, password: string) {
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { email, password, username } = body;
+  const { email, password } = body;
 
-  const user = await login(email, password);
-  console.log("user", user);
+  const data = await login(email, password);
+  const user = { name: data?.username, email: data?.email };
   return NextResponse.json(user);
 }

@@ -1,7 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
-import { use } from "react";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -16,7 +15,7 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
       credentials: {
         username: {
-          label: "Username",
+          label: "Name",
           type: "text",
           placeholder: "jsmith",
         },
@@ -28,7 +27,7 @@ export const authOptions: NextAuthOptions = {
           const res = await fetch("http://localhost:3000/api/login", {
             method: "POST",
             body: JSON.stringify({
-              username: credentials?.username,
+              name: credentials?.username,
               email: credentials!.email || "",
               password: credentials!.password || "",
             }),
@@ -57,31 +56,53 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
     async session({ session, user, token }) {
+      if (session.user) {
+        session.user.email = token.email as string;
+        session.user.name = token.name as string;
+      }
       return session;
     },
     async jwt({ token, user, account }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (user) {
         token.id = user.id;
+        token.email = user.email;
+        token.name = user.name; // user.username
       }
       if (account) {
         token.accessToken = account.access_token;
       }
+      // console.log("jwt", user);
+      // console.log("jwt", token);
       return token;
     },
-    async signIn({ user, account, profile, email, credentials }) {
-      console.log("session", user);
-      const isAllowedToSignIn = true;
-      if (isAllowedToSignIn) {
+    async signIn({ user, account, profile }) {
+      console.log("signIn", user);
+      // if github login user not exist, create a new user in db
+      if (account!.provider === "github") {
+        // const existingUser = await prisma.user.findUnique({
+        //   where: { email: user.email! },
+        // });
+        // if (!existingUser) {
+        //   await prisma.user.create({
+        //     data: {
+        //       email: user.email!,
+        //       name: user.name || profile?.name,
+        //       // 可以添加其他字段,如GitHub头像URL等
+        //     },
+        //   });
+        // }
         return true;
-      } else {
-        // Return false to display a default error message
-        return false;
-        // Or you can return a URL to redirect to:
-        // return '/unauthorized'
       }
+      if (user) {
+        return true;
+      }
+      return false;
     },
   },
 };

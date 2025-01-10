@@ -1,12 +1,12 @@
-import Header from "../components/layout/header";
-import FeatureCard from "../components/shared/feature-card";
-import { Button } from "../components/ui/button";
+import Header from "@/components/layout/header";
+import FeatureCard from "../../components/shared/feature-card";
+import { Button } from "../../components/ui/button";
 import Link from "next/link";
+import Footer from "@/components/layout/footer";
 
 export default function Home() {
   return (
     <div>
-      <Header />
       <main className="flex-grow">
         <section className="py-20 px-4 md:px-6 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
