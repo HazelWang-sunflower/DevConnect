@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 async function updateUserName(name: string, email: string) {
-  const user = await prisma?.user.update({
+  const user = await prisma.user.update({
     where: {
       email: email,
     },

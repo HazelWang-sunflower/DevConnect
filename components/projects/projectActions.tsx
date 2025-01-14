@@ -9,26 +9,28 @@ import {
   DialogContent,
   DialogTitle,
   DialogFooter,
-  DialogDescription,
 } from "../ui/dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icons } from "../ui/icons";
+import { Textarea } from "../ui/textarea";
+import { Plus } from "lucide-react";
+import { createProject } from "@/action/project.action";
 
-export default function ProjectActions() {
+export default function ProjectActions({ email }: { email: string }) {
   const [search, setSearch] = useState("");
-  const createProject = () => {};
 
   const formSchema = z.object({
-    projectName: z.string().nonempty({ message: "Project Name is required." }),
+    name: z.string().nonempty({ message: "Project Name is required." }),
     desc: z.string(),
     url: z.string().url({ message: "Please enter a valid URL." }),
   });
@@ -36,7 +38,7 @@ export default function ProjectActions() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      projectName: "",
+      name: "",
       desc: "",
       url: "",
     },
@@ -48,11 +50,26 @@ export default function ProjectActions() {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     setError("");
+    // const response = await fetch("http://localhost:3000/api/project", {
+    //   method: "POST",
+    //   body: JSON.stringify({ ...data, accountEmail: email }),
+    // });
+
+    // // const res = await response.json();
+    // // console.log(res);
+    // if (response.ok) {
+    //   console.log(response);
+    // } else {
+    //   // setError(data.error);
+    //   // throw new Error(data.error || "Registration failed");
+    // }
     console.log(data);
+    await createProject(data, email);
+    setIsLoading(false);
   };
 
   return (
-    <div className="container">
+    <div className="container flex justify-between space-x-4">
       <Input
         placeholder="Search Project name..."
         value={search}
@@ -60,26 +77,27 @@ export default function ProjectActions() {
       ></Input>
       <Dialog>
         <DialogTrigger asChild>
-          <Button>Add Projects</Button>
+          <Button>
+            <Plus />
+            Add Projects
+          </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[625px]">
           <DialogHeader>
             <DialogTitle>Create New Project</DialogTitle>
-            {/* <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription> */}
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <Form {...form}>
               <form
-                onSubmit={form.handleSubmit(onSubmit)}
                 className="w-full space-y-8"
+                onSubmit={form.handleSubmit(onSubmit)}
               >
                 <FormField
                   control={form.control}
-                  name="projectName"
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel>Project Name</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Project Name"
@@ -96,12 +114,12 @@ export default function ProjectActions() {
                   name="desc"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Description"
+                        <Textarea
                           {...field}
                           disabled={isLoading}
+                          placeholder="Type your project description here."
                         />
                       </FormControl>
                       <FormMessage />
@@ -113,6 +131,7 @@ export default function ProjectActions() {
                   name="url"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel>GitHub URL</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
@@ -135,7 +154,7 @@ export default function ProjectActions() {
             </Form>
           </div>
           {/* <DialogFooter>
-            <Button type="submit">
+            <Button onClick={onSubmit}>
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
