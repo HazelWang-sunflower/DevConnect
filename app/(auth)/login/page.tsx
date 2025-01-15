@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { SigninForm } from "../../../components/signin-form";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../api/auth/[...nextauth]/route";
+import { SigninForm } from "@/components/signin-form";
+import { authOptions } from "@/api/auth/[...nextauth]/route";
 
 async function LoginPage() {
   const session = await getServerSession(authOptions);

@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  reactStrictMode: true,
-  swcMinify: true,
+  experimental: {
+    serverActions: { bodySizeLimit: 1024 * 1024 },
+  },
 };
 
 export default nextConfig;

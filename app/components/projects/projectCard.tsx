@@ -1,9 +1,8 @@
 import { MoreHorizontal } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "../ui/card";
-import { Project } from "@/types/projects/project";
+import { Project } from "@/types/projects";
 import { Icons } from "../ui/icons";
 import { Button } from "../ui/button";
-
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <div className="continer">

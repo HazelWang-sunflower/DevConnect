@@ -1,8 +1,6 @@
-import Header from "@/components/layout/header";
-import FeatureCard from "../../components/shared/feature-card";
-import { Button } from "../../components/ui/button";
+import FeatureCard from "@/components/shared/feature-card";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Footer from "@/components/layout/footer";
 
 export default function Home() {
   return (

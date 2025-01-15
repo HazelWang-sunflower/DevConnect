@@ -1,11 +1,10 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/api/auth/[...nextauth]/route";
 import ProjectActions from "@/components/projects/projectActions";
 import ProjectCard from "@/components/projects/projectCard";
 import { Separator } from "@/components/ui/separator";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { useEffect } from "react";
 
 export default async function Projects() {
   const session = await getServerSession(authOptions);
