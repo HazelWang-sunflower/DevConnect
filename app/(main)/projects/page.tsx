@@ -1,77 +1,23 @@
 import { authOptions } from "@/api/auth/[...nextauth]/route";
-import ProjectActions from "@/components/projects/projectActions";
-import ProjectCard from "@/components/projects/projectCard";
+import ProjectActions from "@/(main)/projects/components/projectActions";
+import ProjectCard from "@/(main)/projects/components/projectCard";
 import { Separator } from "@/components/ui/separator";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 
 export default async function Projects() {
   const session = await getServerSession(authOptions);
-  let projects = [];
-  console.log("sss", session);
 
   if (!session) {
     redirect("/auth/signin");
   }
-
-  //   if (session.user) {
-  const data = await fetch(
-    `http://localhost:3000/api/project?email=${session.user.email}`
-  );
-  projects = await data.json();
-  //   }
-
-  //   let projects = [
-  //     {
-  //       id: 1,
-  //       name: "test",
-  //       desc: "test",
-  //       url: "https://github.com/settings/applications/2824121",
-  //     },
-  //     {
-  //       id: 2,
-  //       name: "test",
-  //       desc: "test",
-  //       url: "https://github.com/settings/applications/2824121",
-  //     },
-  //     {
-  //       id: 3,
-  //       name: "test",
-  //       desc: "test",
-  //       url: "https://github.com/settings/applications/2824121",
-  //     },
-  //     {
-  //       id: 4,
-  //       name: "test",
-  //       desc: "test",
-  //       url: "https://github.com/settings/applications/2824121",
-  //     },
-  //     {
-  //       id: 5,
-  //       name: "test",
-  //       desc: "test",
-  //       url: "",
-  //     },
-  //     {
-  //       id: 6,
-  //       name: "test",
-  //       desc: "test",
-  //       url: "https://github.com/settings/applications/2824121",
-  //     },
-  //     {
-  //       id: 7,
-  //       name: "test",
-  //       desc: "test",
-  //       url: "https://github.com/settings/applications/2824121",
-  //     },
-  //     {
-  //       id: 8,
-  //       name: "test",
-  //       desc: "test",
-  //       url: "https://github.com/settings/applications/2824121",
-  //     },
-  //   ];
+  const projects = await prisma.project.findMany({
+    where: {
+      accountEmail: session.user?.email!,
+    },
+  });
 
   return (
     <div className="container flex-wrap mx-auto py-8">

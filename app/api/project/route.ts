@@ -23,14 +23,14 @@ export async function GET(request: Request) {
 
 async function createProject(params: {
   name: string;
-  userId: number;
+  email: string;
   desc: string;
   url: string;
 }) {
   const res = await prisma.project.create({
     data: {
       name: params.name,
-      userId: params.userId,
+      accountEmail: params.email,
       desc: params.desc,
       url: params.url,
     },

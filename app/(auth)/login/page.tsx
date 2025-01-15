@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { SigninForm } from "@/components/signin-form";
+import { SigninForm } from "@/(auth)/login/components/signin-form";
 import { authOptions } from "@/api/auth/[...nextauth]/route";
 
 async function LoginPage() {

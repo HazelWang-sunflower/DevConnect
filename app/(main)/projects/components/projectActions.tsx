@@ -1,30 +1,29 @@
 "use client";
 import { useState } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogHeader,
-  DialogContent,
-  DialogTitle,
-  DialogFooter,
-} from "../ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Icons } from "../ui/icons";
-import { Textarea } from "../ui/textarea";
 import { Plus } from "lucide-react";
-import { createProject } from "@/action/project.action";
+import { createProject } from "@/actions/project.action";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { Icons } from "@/components/ui/icons";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ProjectActions({ email }: { email: string }) {
   const [search, setSearch] = useState("");
@@ -46,26 +45,15 @@ export default function ProjectActions({ email }: { email: string }) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     setError("");
-    // const response = await fetch("http://localhost:3000/api/project", {
-    //   method: "POST",
-    //   body: JSON.stringify({ ...data, accountEmail: email }),
-    // });
-
-    // // const res = await response.json();
-    // // console.log(res);
-    // if (response.ok) {
-    //   console.log(response);
-    // } else {
-    //   // setError(data.error);
-    //   // throw new Error(data.error || "Registration failed");
-    // }
-    console.log(data);
     await createProject(data, email);
+
     setIsLoading(false);
+    setOpen(false);
   };
 
   return (
@@ -75,7 +63,7 @@ export default function ProjectActions({ email }: { email: string }) {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       ></Input>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button>
             <Plus />
