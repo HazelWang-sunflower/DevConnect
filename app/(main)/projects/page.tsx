@@ -11,7 +11,7 @@ export default async function Projects() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    redirect("/auth/signin");
+    redirect("/login");
   }
   const projects = await prisma.project.findMany({
     where: {
