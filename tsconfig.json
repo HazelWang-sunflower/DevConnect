@@ -20,16 +20,7 @@
       }
     ],
     "paths": {
-      // "@": ["./app/*"],
-      // "@/components/*": ["components/*"],
-      // "@/styles/*": ["styles/*"],
-      // "@/hooks/*": ["hooks/*"],
-      // "@/lib/*": ["lib/*"],
-      // "@/prisma/*": ["prisma/*"],
-      // "@/types/*": ["types/*"],
-      // "@/api/*": ["api/*"],
-      // "@/action/*": ["action/*"]
-      "@/*": ["app/*"]
+      "@/*": ["./*"]
     }
   },
   "include": [

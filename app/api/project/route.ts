@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "lib/prisma";
 
 async function findProjectsByEmail(email: string) {
   const projects = await prisma.project.findMany({

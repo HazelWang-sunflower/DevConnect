@@ -2,18 +2,18 @@
 import { useState } from "react";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/ui/icons";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "components/ui/button";
+import { Icons } from "components/ui/icons";
+import { Avatar, AvatarFallback, AvatarImage } from "components/ui/avatar";
+import { Separator } from "components/ui/separator";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardContent,
   CardFooter,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+} from "components/ui/card";
+import { Input } from "components/ui/input";
 
 export default function Profile() {
   const { data: session } = useSession();

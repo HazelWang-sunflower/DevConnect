@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
-import { createProject } from "@/actions/project.action";
+import { createProject } from "actions/project.action";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "components/ui/dialog";
 import {
   Form,
   FormField,
@@ -21,9 +21,9 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/ui/form";
-import { Icons } from "@/components/ui/icons";
-import { Textarea } from "@/components/ui/textarea";
+} from "components/ui/form";
+import { Icons } from "components/ui/icons";
+import { Textarea } from "components/ui/textarea";
 
 export default function ProjectActions({ email }: { email: string }) {
   const [search, setSearch] = useState("");

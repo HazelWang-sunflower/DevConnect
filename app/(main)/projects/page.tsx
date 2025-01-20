@@ -1,11 +1,11 @@
-import { authOptions } from "@/api/auth/[...nextauth]/route";
-import ProjectActions from "@/(main)/projects/components/projectActions";
-import ProjectCard from "@/(main)/projects/components/projectCard";
 import { Separator } from "@/components/ui/separator";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import ProjectActions from "./components/projectActions";
+import ProjectCard from "./components/projectCard";
 
 export default async function Projects() {
   const session = await getServerSession(authOptions);
@@ -33,9 +33,9 @@ export default async function Projects() {
       <div className="mt-2 grid auto-rows-min gap-3 grid-cols-3">
         {projects.map((project) => (
           <div key={project.id}>
-            <Link href={`/projects/${project.id}`} className="block">
-              <ProjectCard project={project}></ProjectCard>
-            </Link>
+            {/* <Link href={`/projects/${project.id}`} className="block"> */}
+            <ProjectCard project={project}></ProjectCard>
+            {/* </Link> */}
           </div>
         ))}
       </div>

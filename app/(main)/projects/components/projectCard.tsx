@@ -1,15 +1,16 @@
-import { MoreHorizontal } from "lucide-react";
-import { Card, CardHeader, CardTitle } from "../../../components/ui/card";
-import { Icons } from "../../../components/ui/icons";
-import { Button } from "../../../components/ui/button";
-import { Project } from "@/types/projects/project";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Icons } from "@/components/ui/icons";
+import { Project } from "types/projects/project";
+import { Button } from "@/components/ui/button";
+import ProjectCardAction from "./projectCardAction";
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <div className="continer">
       <Card className="">
         <CardHeader>
           <CardTitle className="flex justify-between">
-            <div className="text-xl">{project.name}</div> <MoreHorizontal />
+            <div className="text-xl">{project.name}</div>
+            <ProjectCardAction id={project.id} />
           </CardTitle>
           <div>
             <div className="text-md text-gray-500 ">

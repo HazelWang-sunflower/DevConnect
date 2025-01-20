@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "lib/prisma";
 import { NextResponse } from "next/server";
 async function signup(username: string, email: string, password: string) {
   const data = prisma.user.create({

@@ -1,19 +1,19 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
+import { Input } from "components/ui/input";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "../../components/ui/form";
+} from "../../../components/ui/form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/ui/icons";
+import { Button } from "components/ui/button";
+import { Icons } from "components/ui/icons";
 
 export default function Register() {
   const router = useRouter();

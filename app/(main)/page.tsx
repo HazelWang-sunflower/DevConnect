@@ -15,7 +15,7 @@ export default function Home() {
             the world.
           </p>
           <Button asChild size="lg">
-            <Link href="/register">Join the Community</Link>
+            <Link href="/signup">Join the Community</Link>
           </Button>
         </section>
 
@@ -47,7 +47,7 @@ export default function Home() {
             Join thousands of developers already on DevConnect
           </p>
           <Button asChild size="lg">
-            <Link href="/register">Create Your Account</Link>
+            <Link href="/signup">Create Your Account</Link>
           </Button>
         </section>
       </main>
