@@ -9,17 +9,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Icons } from "@/components/ui/icons";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { LucideEdit } from "lucide-react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
@@ -34,7 +25,6 @@ export default function EditDialog({ id }: { id: number }) {
   const [open, setOpen] = useState(false);
 
   const formSchema = z.object({
-    id: z.number(),
     name: z.string().nonempty({ message: "Project Name is required." }),
     desc: z.string(),
     url: z.string().url({ message: "Please enter a valid URL." }),
@@ -48,6 +38,7 @@ export default function EditDialog({ id }: { id: number }) {
   } = useForm<z.infer<typeof formSchema>>();
 
   useEffect(() => {
+    setIsLoading(true);
     const loadData = async () => {
       const project = await fetchProject(id);
       if (project) {
@@ -55,13 +46,14 @@ export default function EditDialog({ id }: { id: number }) {
       }
     };
     loadData();
+    setIsLoading(false);
   }, [reset]);
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     console.log(data);
     setIsLoading(true);
     setError("");
-    // await updateProject(data, email);
+    await updateProject(data, id);
 
     setIsLoading(false);
     setOpen(false);
@@ -81,45 +73,53 @@ export default function EditDialog({ id }: { id: number }) {
           <DialogHeader>
             <DialogTitle>Edit Project</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <form
-              className="w-full space-y-8"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <Label>Project Name</Label>
-              <Input
-                placeholder="Project Name"
-                {...register("name", {
-                  required: "Project name is required",
-                })}
-                disabled={isLoading}
-              />
-              <Label>Description</Label>
-              <Textarea
-                disabled={isLoading}
-                {...register("desc", {
-                  required: "Project name is required",
-                })}
-                placeholder="Type your project description here."
-              />
-              <Label>GitHub URL</Label>
-              <Input
-                type="text"
-                placeholder="GitHub URL"
-                {...register("url", {
-                  required: "URL is required",
-                })}
-                disabled={isLoading}
-              />
-              <Button variant="outline" onClick={() => setOpen(false)}></Button>
-              <Button className="w-full" type="submit" disabled={isLoading}>
-                {isLoading && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Update
-              </Button>
-            </form>
-          </div>
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <div className="grid gap-4 py-4">
+              <form
+                className="w-full space-y-8"
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                <Label>Project Name</Label>
+                <Input
+                  placeholder="Project Name"
+                  {...register("name", {
+                    required: "Project name is required",
+                  })}
+                  disabled={isLoading}
+                />
+                <Label>Description</Label>
+                <Textarea
+                  disabled={isLoading}
+                  {...register("desc", {
+                    required: "Project name is required",
+                  })}
+                  placeholder="Type your project description here."
+                />
+                <Label>GitHub URL</Label>
+                <Input
+                  type="text"
+                  placeholder="GitHub URL"
+                  {...register("url", {
+                    required: "URL is required",
+                  })}
+                  disabled={isLoading}
+                />
+                <div className="flex flex-row gap-2 justify-end">
+                  <Button variant="outline" onClick={() => setOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" disabled={isLoading}>
+                    {isLoading && (
+                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    Update
+                  </Button>
+                </div>
+              </form>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </>
