@@ -2,14 +2,14 @@ import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { SigninForm } from "@/(auth)/login/components/signin-form";
-import { authOptions } from "@/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { SigninForm } from "./components/signin-form";
 
 async function LoginPage() {
   const session = await getServerSession(authOptions);
-  if (session) {
-    redirect("/");
-  }
+  // if (session) {
+  //   redirect("/");
+  // }
 
   return (
     <div className="container">

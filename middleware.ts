@@ -6,15 +6,18 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
-  if (!token && request.nextUrl.pathname.startsWith("/dashboard")) {
+  // request.headers.set('Authorization', 'Bearer myAccessToken');
+  const { pathname } = request.nextUrl;
+
+  if (!token && pathname !== "/login") {
     return NextResponse.redirect(new URL("/login", request.url));
   }
-  if (token && request.nextUrl.pathname.startsWith("/login")) {
+  if (token && pathname === "/login") {
     return NextResponse.redirect(new URL("/", request.url));
   }
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login"],
+  matcher: ["/dashboard/:path*", "/blog", "/projects/:paht*", "/login"],
 };
