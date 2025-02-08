@@ -12,9 +12,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useUser } from "@/context/userContext";
 
 export default function Header() {
   const { data: session } = useSession();
+  const { username } = useUser();
 
   return (
     <header className="bg-background border-b">
@@ -37,11 +39,11 @@ export default function Header() {
                   <AvatarImage
                     src={session.user?.image ?? "https://github.com/shadcn.png"}
                   />
-                  <AvatarFallback>{session.user?.name}</AvatarFallback>
+                  <AvatarFallback>{username}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuLabel>{session.user?.name}</DropdownMenuLabel>
+                <DropdownMenuLabel>{username}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <Link href="/profile">Profile</Link>

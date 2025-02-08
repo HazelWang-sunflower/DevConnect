@@ -14,11 +14,14 @@ import {
   CardFooter,
 } from "components/ui/card";
 import { Input } from "components/ui/input";
+import { useUser } from "@/context/userContext";
 
 export default function Profile() {
   const { data: session } = useSession();
 
-  const [name, setName] = useState(session?.user?.name || "");
+  const { username, updateUsername } = useUser();
+
+  const [name, setName] = useState(username || "");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -31,7 +34,6 @@ export default function Profile() {
   }
 
   async function setUsername() {
-    console.log("name", name);
     setIsLoading(true);
     setError("");
     if (session?.user?.email) {
@@ -41,10 +43,9 @@ export default function Profile() {
       });
 
       const data = await response.json();
-      console.log("response", data);
       if (response.ok) {
         console.log("update name success!");
-        setName(data.username);
+        updateUsername(data.username);
       } else {
         setError(data.error);
       }
@@ -107,7 +108,7 @@ export default function Profile() {
             </CardContent>
             <Separator className="my-4" />
             <CardFooter>
-              <Button onClick={setUsername}>
+              <Button onClick={setUsername} disabled={isLoading}>
                 {isLoading && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
