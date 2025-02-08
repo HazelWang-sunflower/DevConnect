@@ -60,7 +60,8 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async session({ session, user, token }) {
+    async session({ session, token }) {
+      console.log("session", token);
       if (session.user) {
         session.user.email = token.email as string;
         session.user.name = token.name as string;
@@ -68,12 +69,16 @@ export const authOptions: NextAuthOptions = {
 
       return session;
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger, session }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name; // user.username
+      }
+      if (trigger === "update") {
+        token.name = session.user.name;
+        console.log("trigger", session);
       }
       if (account) {
         token.accessToken = account.access_token;

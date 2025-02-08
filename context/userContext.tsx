@@ -17,19 +17,30 @@ export function UserContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
 
   const [username, setUsername] = useState<string>("");
 
   useEffect(() => {
-    if (status === "authenticated") {
-      setUsername(session?.user?.name || "");
+    if (status === "authenticated" && session?.user?.name) {
+      setUsername(session.user.name);
     }
   }, [session, status]);
 
   // 更新用户名并同步到 sessionStorage
-  const updateUsername = (newUsername: string) => {
-    setUsername(newUsername);
+  const updateUsername = async (newUsername: string) => {
+    // setUsername(newUsername);
+    // await update({ ...session, user: { ...session?.user, name: newUsername } });
+    try {
+      setUsername(newUsername);
+      const newSession = {
+        ...session,
+        user: { ...session?.user, name: newUsername },
+      };
+      await update(newSession);
+    } catch (error) {
+      console.error("Failed to update username:", error);
+    }
   };
 
   return (

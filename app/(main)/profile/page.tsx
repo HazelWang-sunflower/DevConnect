@@ -45,7 +45,7 @@ export default function Profile() {
       const data = await response.json();
       if (response.ok) {
         console.log("update name success!");
-        updateUsername(data.username);
+        await updateUsername(data.username);
       } else {
         setError(data.error);
       }

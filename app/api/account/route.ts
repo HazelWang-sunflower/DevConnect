@@ -21,3 +21,12 @@ export async function POST(request: Request) {
   console.log("update", data);
   return NextResponse.json(data);
 }
+
+export async function PUT(request: Request) {
+  const body = await request.json();
+
+  const { name, email } = body;
+  const data = await updateUserName(name, email);
+  console.log("update", data);
+  return NextResponse.json(data);
+}
