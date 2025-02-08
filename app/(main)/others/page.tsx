@@ -1,7 +1,8 @@
 "use client";
+import { withAuth } from "@/components/perssion/withAuth";
 import VirtualizedList from "@/components/shared/virtuallize-list";
 import { FixedSizeList as List } from "react-window";
-export default function OthersPage() {
+function OthersPage() {
   const Row = ({ index, style }: { index: number; style: any }) => (
     <div style={style}>Row {index}</div>
   );
@@ -52,3 +53,5 @@ export default function OthersPage() {
     </div>
   );
 }
+
+export default withAuth(OthersPage);
